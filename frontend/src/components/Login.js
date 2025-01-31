@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import navigation hook
 import axios from 'axios';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate(); // Initialize navigation
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,32 +22,34 @@ const Login = () => {
             }
         );
 
-        // Handle successful login
         if (response.status === 200 && response.data) {
             console.log('Login successful:', response.data);
-            setMessage(response.data.message); // Use message from response
+            setMessage(response.data.message);
 
-            // Optionally, handle the role if needed
-            if (response.data.role) {
-                console.log('User role:', response.data.role);
-                // Do something with the role if necessary
+            // Store role in localStorage
+            localStorage.setItem('userRole', response.data.role);
+
+            // Redirect based on role
+            if (response.data.role === 'admin') {
+                navigate('/admin-dashboard');
+            } else if (response.data.role === 'customer') {
+                navigate('/customer-dashboard');
+            } else {
+                setMessage('Unauthorized role.'); // Handle unexpected roles
             }
-        } else{
-          console.log('Invalid response from server');
+        } else {
+            console.log('Invalid response from server');
             setMessage('Login failed. Please try again.');
         }
     } catch (error) {
         console.log('Login failed:', error.response);
-
-        // If the status code is 401 (Unauthorized), show failure message
         if (error.response && error.response.status === 401) {
             setMessage('Invalid username or password!');
         } else {
             setMessage('Login failed. Please try again.');
         }
     }
-};
-
+  };
 
   return (
     <div>
@@ -77,3 +81,4 @@ const Login = () => {
 };
 
 export default Login;
+
