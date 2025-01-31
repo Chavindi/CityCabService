@@ -1,39 +1,140 @@
+// package com.cab.backend.model;
+
+// import org.springframework.data.annotation.Id;
+// import org.springframework.data.mongodb.core.mapping.Document;
+
+// @Document(collection = "users") // This maps to a "users" collection in MongoDB
+// public class User {
+
+//     @Id
+//     private String id; // MongoDB generates a unique ID automatically
+
+//     private String username;
+//     private String password;
+//     private String role; // Can be "CUSTOMER" or "ADMIN"
+
+//     // Customer-specific fields
+//     private String registrationNumber;
+//     private String name;
+//     private String address;
+//     private String nic;
+//     private String phone;
+
+//     // Default constructor (required for MongoDB)
+//     public User() {
+//     }
+
+//     // Constructor for both Admin and Customer
+//     public User(String username, String password, String role, String registrationNumber, String name, String address, String nic, String phone) {
+//         this.username = username;
+//         this.password = password;
+//         this.role = role;
+//         this.registrationNumber = registrationNumber;
+//         this.name = name;
+//         this.address = address;
+//         this.nic = nic;
+//         this.phone = phone;
+//     }
+
+//     // Getters and Setters
+//     public String getId() {
+//         return id;
+//     }
+
+//     public void setId(String id) {
+//         this.id = id;
+//     }
+
+//     public String getUsername() {
+//         return username;
+//     }
+
+//     public void setUsername(String username) {
+//         this.username = username;
+//     }
+
+//     public String getPassword() {
+//         return password;
+//     }
+
+//     public void setPassword(String password) {
+//         this.password = password;
+//     }
+
+//     public String getRole() {
+//         return role;
+//     }
+
+//     public void setRole(String role) {
+//         this.role = role;
+//     }
+
+//     public String getRegistrationNumber() {
+//         return registrationNumber;
+//     }
+
+//     public void setRegistrationNumber(String registrationNumber) {
+//         this.registrationNumber = registrationNumber;
+//     }
+
+//     public String getName() {
+//         return name;
+//     }
+
+//     public void setName(String name) {
+//         this.name = name;
+//     }
+
+//     public String getAddress() {
+//         return address;
+//     }
+
+//     public void setAddress(String address) {
+//         this.address = address;
+//     }
+
+//     public String getNic() {
+//         return nic;
+//     }
+
+//     public void setNic(String nic) {
+//         this.nic = nic;
+//     }
+
+//     public String getPhone() {
+//         return phone;
+//     }
+
+//     public void setPhone(String phone) {
+//         this.phone = phone;
+//     }
+// }
+
 package com.cab.backend.model;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "users") // This maps to a "users" collection in MongoDB
+@Document(collection = "users")
 public class User {
-
     @Id
-    private String id; // MongoDB generates a unique ID automatically
-
+    private String id;
     private String username;
     private String password;
-    private String role; // Can be "CUSTOMER" or "ADMIN"
-
-    // Customer-specific fields
-    private String registrationNumber;
+    private String role;
     private String name;
-    private String address;
-    private String nic;
-    private String phone;
+    private String email;
+    private String contactNumber;
+    private Date createdAt;
+    private Date updatedAt;
 
-    // Default constructor (required for MongoDB)
-    public User() {
-    }
+    public User() {}
 
-    // Constructor for both Admin and Customer
-    public User(String username, String password, String role, String registrationNumber, String name, String address, String nic, String phone) {
+  // Constructor for creating a new user
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.role = role;
-        this.registrationNumber = registrationNumber;
-        this.name = name;
-        this.address = address;
-        this.nic = nic;
-        this.phone = phone;
     }
 
     // Getters and Setters
@@ -69,14 +170,6 @@ public class User {
         this.role = role;
     }
 
-    public String getRegistrationNumber() {
-        return registrationNumber;
-    }
-
-    public void setRegistrationNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
-    }
-
     public String getName() {
         return name;
     }
@@ -85,27 +178,35 @@ public class User {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getNic() {
-        return nic;
+    public String getContactNumber() {
+        return contactNumber;
     }
 
-    public void setNic(String nic) {
-        this.nic = nic;
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
-    public String getPhone() {
-        return phone;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
