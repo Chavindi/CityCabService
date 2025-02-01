@@ -79,6 +79,7 @@ package com.cab.backend.Controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -138,6 +139,18 @@ public class CarController {
             return ResponseEntity.ok(updatedCar);
         }).orElse(ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCar(@PathVariable String id) {
+        if (carRepository.existsById(id)) {
+            carRepository.deleteById(id); // Directly using deleteById method
+            return ResponseEntity.noContent().build(); // HTTP 204 No Content
+        } else {
+            return ResponseEntity.notFound().build(); // HTTP 404 Not Found
+        }
+    }
+    
+
 
 
 }
