@@ -1,9 +1,11 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useState } from "react";
 import { FaTachometerAlt, FaCar, FaUser, FaSignOutAlt } from "react-icons/fa";
+import CarTable from "./panels/CarTable";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Dashboard = () => {
+  const [activeComponent, setActiveComponent] = useState("dashboard");
+
   return (
     <div className="d-flex">
       {/* Sidebar */}
@@ -11,32 +13,46 @@ const Dashboard = () => {
         <h4 className="text-center">MegaCityCab</h4>
         <ul className="nav flex-column">
           <li className="nav-item">
-            <Link className="nav-link text-white" to="/dashboard">
+            <button
+              className="nav-link text-white btn btn-link"
+              onClick={() => setActiveComponent("dashboard")}
+            >
               <FaTachometerAlt className="me-2" /> Dashboard
-            </Link>
+            </button>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-white" to="/dashboard/cars">
+            <button
+              className="nav-link text-white btn btn-link"
+              onClick={() => setActiveComponent("cars")}
+            >
               <FaCar className="me-2" /> Manage Cars
-            </Link>
+            </button>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-white" to="/dashboard/users">
+            <button
+              className="nav-link text-white btn btn-link"
+              onClick={() => setActiveComponent("users")}
+            >
               <FaUser className="me-2" /> Manage Drivers
-            </Link>
+            </button>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-white" to="/login">
+            <button
+              className="nav-link text-white btn btn-link"
+              onClick={() => setActiveComponent("logout")}
+            >
               <FaSignOutAlt className="me-2" /> Logout
-            </Link>
+            </button>
           </li>
         </ul>
       </div>
 
       {/* Main Content */}
       <div className="flex-grow-1 p-4">
-        <h2>Dashboard</h2>
-        <Outlet />
+        {activeComponent === "dashboard" && <h2>Dashboard</h2>}
+        {activeComponent === "cars" && <CarTable />}
+        {activeComponent === "users" && <h2>Manage Drivers (Coming Soon)</h2>}
+        {activeComponent === "logout" && <h2>Logging Out...</h2>}
       </div>
     </div>
   );

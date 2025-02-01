@@ -3,7 +3,7 @@ package com.cab.backend.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "cars") // ✅ Mapping this class to 'cars' collection
+@Document(collection = "cars") //  Mapping this class to 'cars' collection
 public class Car {
     @Id
     private String id;
@@ -12,21 +12,19 @@ public class Car {
     private String number;
     private String color;
     private int year;
-    private String driverId;  // Reference to the driver
 
-    // ✅ Constructors
+    //  Constructors
     public Car() {}
 
-    public Car(String brand, String model, String number, String color, int year, String driverId) {
+    public Car(String brand, String model, String number, String color, int year) {
         this.brand = brand;
         this.model = model;
         this.number = number;
         this.color = color;
         this.year = year;
-        this.driverId = driverId;
     }
 
-    // ✅ Getters and Setters
+    //  Getters and Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -44,7 +42,4 @@ public class Car {
 
     public int getYear() { return year; }
     public void setYear(int year) { this.year = year; }
-
-    public String getDriverId() { return driverId; }
-    public void setDriverId(String driverId) { this.driverId = driverId; }
 }
