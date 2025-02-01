@@ -4,11 +4,14 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import AddCar from "../panels/models/AddCar";
+import UpdateCar from "../panels/models/UpdateCar";
 
 
 const CarTable = () => {
   const [cars, setCars] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedCar, setSelectedCar] = useState(null);
 
   useEffect(() => {
     fetchCars();
@@ -24,13 +27,21 @@ const CarTable = () => {
       .catch((error) => console.error("Error fetching cars:", error));
   };
 
+  const handleUpdateCar = (car) => {
+    setSelectedCar(car);  // Pass selected car data
+    setShowUpdateModal(true);  // Open modal
+  };
+
   const handleAddCar = () => {
     setShowModal(true);  // Open modal when Add button is clicked
   };
 
   const handleCloseModal = () => {
     setShowModal(false);  // Close modal
+    setShowUpdateModal(false);
   };
+
+
 
   const handleDeleteCar = (id) => {
     axios
@@ -55,7 +66,7 @@ const CarTable = () => {
       name: "Actions",
       cell: (row) => (
         <>
-          <button className="btn btn-primary me-2">
+          <button className="btn btn-primary me-2" onClick={() => handleUpdateCar(row)}>
             <FaEdit />
           </button>
           <button className="btn btn-danger"  onClick={() => handleDeleteCar(row.id)}>
@@ -82,8 +93,19 @@ const CarTable = () => {
       {showModal && (
         <AddCar handleClose={handleCloseModal} fetchCars={fetchCars} />
       )}
+
+            {/* UpdateCar Modal */}
+            {showUpdateModal && (
+        <UpdateCar
+          car={selectedCar}  // Pass selected car data to modal
+          handleClose={handleCloseModal}
+          fetchCars={fetchCars}
+          carData={selectedCar}
+        />
+      )}
     </div>
   );
 };
+  
 
 export default CarTable;
