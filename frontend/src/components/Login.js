@@ -1,87 +1,3 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom'; // Import navigation hook
-// import axios from 'axios';
-
-// const Login = () => {
-//   const [username, setUsername] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [message, setMessage] = useState('');
-//   const navigate = useNavigate(); // Initialize navigation
-
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-    
-//     try {
-//         const response = await axios.post(
-//             'http://localhost:8080/auth/login',
-//             { username, password },
-//             {
-//                 headers: {
-//                   'Content-Type': 'application/x-www-form-urlencoded',
-//                 }
-//             }
-//         );
-
-//         if (response.status === 200 && response.data) {
-//             console.log('Login successful:', response.data);
-//             setMessage(response.data.message);
-
-//             // Store role in localStorage
-//             localStorage.setItem('userRole', response.data.role);
-
-//             // Redirect based on role
-//             if (response.data.role === 'admin') {
-//                 navigate('/admin-dashboard');
-//             } else if (response.data.role === 'customer') {
-//                 navigate('/customer-dashboard');
-//             } else {
-//                 setMessage('Unauthorized role.'); // Handle unexpected roles
-//             }
-//         } else {
-//             console.log('Invalid response from server');
-//             setMessage('Login failed. Please try again.');
-//         }
-//     } catch (error) {
-//         console.log('Login failed:', error.response);
-//         if (error.response && error.response.status === 401) {
-//             setMessage('Invalid username or password!');
-//         } else {
-//             setMessage('Login failed. Please try again.');
-//         }
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <h2>Login</h2>
-//       <form onSubmit={handleSubmit}>
-//         <div>
-//           <label>Username</label>
-//           <input
-//             type="text"
-//             value={username}
-//             onChange={(e) => setUsername(e.target.value)}
-//             required
-//           />
-//         </div>
-//         <div>
-//           <label>Password</label>
-//           <input
-//             type="password"
-//             value={password}
-//             onChange={(e) => setPassword(e.target.value)}
-//             required
-//           />
-//         </div>
-//         <button type="submit">Login</button>
-//       </form>
-//       <p>{message}</p>
-//     </div>
-//   );
-// };
-
-// export default Login;
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -89,7 +5,7 @@ import { Form, Button, Container, Row, Col, Alert, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -115,7 +31,7 @@ const Login = () => {
 
         if (response.data.role === 'admin') {
           navigate('/admin-dashboard');
-        } else if (response.data.role === 'customer') {
+        } else if (response.data.role === 'CUSTOMER') {
           navigate('/customer-dashboard');
         } else {
           setMessage('Unauthorized role.');
@@ -124,7 +40,7 @@ const Login = () => {
         setMessage('Login failed. Please try again.');
       }
     } catch (error) {
-      setMessage(error.response?.status === 401 ? 'Invalid username or password!' : 'Login failed. Try again.');
+      setMessage(error.response?.status === 401 ? 'Invalid email or password!' : 'Login failed. Try again.');
     } finally {
       setLoading(false);
     }
@@ -141,11 +57,11 @@ const Login = () => {
 
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <Form.Label>Username</Form.Label>
+                <Form.Label>email</Form.Label>
                 <Form.Control
                   type="text"
-                  name="username"
-                  value={formData.username}
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
                   required
                 />

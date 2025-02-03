@@ -21,13 +21,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Response> login(@RequestParam String username, @RequestParam String password) {
-        User user = userRepository.findByUsername(username);
+    public ResponseEntity<Response> login(@RequestParam String email, @RequestParam String password) {
+        User user = userRepository.findByEmail(email); // Find user by email
 
         if (user != null && user.getPassword().equals(password)) {
             return new ResponseEntity<>(new Response("Login successful!", user.getRole()), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new Response("Invalid username or password", null), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new Response("Invalid credentials", null), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -56,12 +56,5 @@ public class AuthController {
         public void setRole(String role) {
             this.role = role;
         }
-    }
-
-    // Register endpoint (kept as it is)
-    @PostMapping("/register")
-    public String register(@RequestParam String username, @RequestParam String password) {
-        // Registration logic, save user to DB (simplified)
-        return "User registered successfully!";
     }
 }

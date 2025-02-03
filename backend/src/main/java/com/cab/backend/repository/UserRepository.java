@@ -1,9 +1,10 @@
 package com.cab.backend.repository;
-import com.cab.backend.model.User;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import com.cab.backend.model.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
-    User findByUsername(String username);
-    boolean existsByUsername(String username);
+    User findByEmail(String email); // For both Admin and Customer login
+    boolean existsByEmail(String email); // Check if email already exists
 }
