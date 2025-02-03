@@ -25,9 +25,9 @@ public class AuthController {
         User user = userRepository.findByEmail(email); // Find user by email
 
         if (user != null && user.getPassword().equals(password)) {
-            return new ResponseEntity<>(new Response("Login successful!", user.getRole(), user.getName()), HttpStatus.OK);
+            return new ResponseEntity<>(new Response("Login successful!", user.getRole(), user.getName(), user.getRegistrationNumber()), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new Response("Invalid credentials", null,null), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new Response("Invalid credentials", null,null,null), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -36,11 +36,13 @@ public class AuthController {
         private String message;
         private String role;
         private String name;
+        private String registrationNumber;
 
-        public Response(String message, String role , String name) {
+        public Response(String message, String role , String name , String registrationNumber) {
             this.message = message;
             this.role = role;
             this.name = name;
+            this.registrationNumber = registrationNumber;
         }
 
         public String getMessage() {
@@ -65,6 +67,14 @@ public class AuthController {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public String getRegistrationNumber() {
+            return registrationNumber;
+        }
+
+        public void setRegistrationNumber(String registrationNumber) {
+            this.registrationNumber = registrationNumber;
         }
     }
 }

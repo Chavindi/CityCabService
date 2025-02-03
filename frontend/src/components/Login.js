@@ -12,6 +12,7 @@ const Login = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    
   };
 
   const handleSubmit = async (event) => {
@@ -29,6 +30,10 @@ const Login = () => {
       if (response.status === 200 && response.data) {
         localStorage.setItem('userRole', response.data.role);
         localStorage.setItem('customerName', response.data.name);
+        localStorage.setItem('registrationNumber', response.data.registrationNumber);
+        console.log('Registration Number set in localStorage:', response.data.registrationNumber);
+        console.log('Role set in localStorage:', response.data.role);
+
 
         if (response.data.role === 'admin') {
           navigate('/admin-dashboard');
