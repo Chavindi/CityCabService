@@ -3,14 +3,16 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Login from "./components/Login";
 import CustomerRegistration from "./components/CustomerRegistration";
 import AdminDashboard from "./pages/admin/Dashboard";
-import CustomerDashboard from "./pages/customer/Dashboard";
+import CustomerDashboard from "./pages/customer/CustomerDashboard";
+import Home from "./pages/Home";
 
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<CustomerRegistration />} />
         <Route path="/admin-dashboard" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>} />
         <Route path="/customer-dashboard" element={<ProtectedRoute role="CUSTOMER"><CustomerDashboard /></ProtectedRoute>} />

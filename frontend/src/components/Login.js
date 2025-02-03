@@ -28,6 +28,7 @@ const Login = () => {
 
       if (response.status === 200 && response.data) {
         localStorage.setItem('userRole', response.data.role);
+        localStorage.setItem('customerName', response.data.name);
 
         if (response.data.role === 'admin') {
           navigate('/admin-dashboard');

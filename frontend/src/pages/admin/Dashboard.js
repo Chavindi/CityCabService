@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaTachometerAlt, FaCar, FaUser, FaSignOutAlt } from "react-icons/fa";
 import CarTable from "./panels/CarTable";
 import DriverTable from "./panels/DriverTable";
+import UserTable from "./panels/UserTable";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Dashboard = () => {
@@ -41,6 +42,14 @@ const Dashboard = () => {
           <li className="nav-item">
             <button
               className="nav-link text-white btn btn-link"
+              onClick={() => setActiveComponent("users")}
+            >
+              <FaUser className="me-2" /> Manage Customers
+            </button>
+          </li>
+          <li className="nav-item">
+            <button
+              className="nav-link text-white btn btn-link"
               onClick={() => setActiveComponent("logout")}
             >
               <FaSignOutAlt className="me-2" /> Logout
@@ -54,6 +63,7 @@ const Dashboard = () => {
         {activeComponent === "dashboard" && <h2>Dashboard</h2>}
         {activeComponent === "cars" && <CarTable />}
         {activeComponent === "drivers" && <DriverTable />}
+        {activeComponent === "users" && <UserTable />}
         {activeComponent === "logout" && <h2>Logging Out...</h2>}
       </div>
     </div>

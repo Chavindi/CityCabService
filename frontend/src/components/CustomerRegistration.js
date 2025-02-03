@@ -35,7 +35,7 @@ const CustomerRegistration = () => {
 
       if (response.status === 201) {
         setMessage(response.data);
-        navigate('/'); // Redirect to login after successful registration
+        navigate('/login'); // Redirect to login after successful registration
       } else {
         setMessage('Registration failed. Please try again.');
       }
@@ -129,7 +129,7 @@ const CustomerRegistration = () => {
 
             <div className="text-center mt-3">
               <span>Already have an account? </span>
-              <Link to="/">Login here</Link>
+              <Link to="/login">Login here</Link>
             </div>
           </Card>
         </Col>
