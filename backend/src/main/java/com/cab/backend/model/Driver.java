@@ -13,17 +13,19 @@ public class Driver {
     private String telephone1;
     private String telephone2;
     private String nic;
+    private String assignedCar;
 
     // Constructors
     public Driver() {}
 
-    public Driver(String firstName, String lastName, String email, String telephone1, String telephone2, String nic) {
+    public Driver(String firstName, String lastName, String email, String telephone1, String telephone2, String nic, String assignedCar) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.telephone1 = telephone1;
         this.telephone2 = telephone2;
         this.nic = nic;
+        this.nic = assignedCar;
     }
 
     // Getters and Setters
@@ -47,4 +49,7 @@ public class Driver {
 
     public String getNic() { return nic; }
     public void setNic(String nic) { this.nic = nic; }
+
+    public String getAssignedCar() { return assignedCar; }
+    public void setAssignedCar(String assignedCar) { this.assignedCar = assignedCar; }
 }

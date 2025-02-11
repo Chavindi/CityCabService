@@ -1,6 +1,7 @@
 package com.cab.backend.Controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -71,6 +72,40 @@ public class DriverController {
             return ResponseEntity.notFound().build(); // HTTP 404 Not Found
         }
     }
+
+
+    @PutMapping("/{id}/assign-car")
+public ResponseEntity<Driver> assignCarToDriver(@PathVariable String id, @RequestBody Map<String, String> request) {
+    String carNumber = request.get("carNumber");
+
+    return driverRepository.findById(id).map(driver -> {
+        // Check if the car is already assigned to another driver
+        if (driverRepository.existsByAssignedCar(carNumber)) {
+            // Return ResponseEntity with a null body but properly typed as Driver
+            return ResponseEntity.badRequest().body((Driver) null); // Car is already assigned
+        }
+
+        driver.setAssignedCar(carNumber);
+        Driver updatedDriver = driverRepository.save(driver);
+        return ResponseEntity.ok(updatedDriver); // Return updated driver
+    }).orElse(ResponseEntity.notFound().build()); // If driver not found, return 404
+}
+
+
+
+    
+
+
+    // Remove assigned car
+    @PutMapping("/{id}/remove-car")
+    public ResponseEntity<Driver> removeCarFromDriver(@PathVariable String id) {
+    return driverRepository.findById(id).map(driver -> {
+        driver.setAssignedCar(null); // Reset to null
+        Driver updatedDriver = driverRepository.save(driver);
+        return ResponseEntity.ok(updatedDriver);
+    }).orElse(ResponseEntity.notFound().build());
+}
+
 
     
 }

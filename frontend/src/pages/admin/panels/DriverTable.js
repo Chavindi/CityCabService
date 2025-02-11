@@ -50,6 +50,22 @@ const DriverTable = () => {
       ...prev,
       [rowId]: selectedOption,
     }));
+    // Send the car assignment to backend when a new car is selected
+    axios
+      .put(`http://localhost:8080/drivers/${rowId}/assign-car`, {
+        carNumber: selectedOption.value,
+      })
+      .then((response) => {
+        console.log("Car assigned:", response.data);
+        fetchDrivers(); // Refresh driver list
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 400) {
+          alert("This car is already assigned to two drivers."); // Show message to user
+        } else {
+          console.error("Error assigning car:", error);
+        }
+      });
   };
 
   const handleUpdateDriver = (driver) => {
@@ -93,8 +109,10 @@ const DriverTable = () => {
       name: "Car Assigned",
       cell: (row) => (
         <Select
+         className="custom-select"
+         style={{ position: 'relative', zIndex: 1000 }}
           options={cars}
-          value={selectedCar[row.id] || null}
+          value={selectedCar[row.id] || { label: row.assignedCar, value: row.assignedCar }} // Set current car as selected
           onChange={(selectedOption) => handleCarChange(selectedOption, row.id)}
           placeholder="Select Car"
         />
