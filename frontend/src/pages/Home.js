@@ -1,12 +1,18 @@
 import React from "react";
 import { Container, Navbar, Nav, Button, Carousel, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import image2 from '../images/image2.jpg';
+import image3 from '../images/image3.jpg';
+import image4 from '../images/image4.jpg';
+import image5 from '../images/image5.jpg';
+import image6 from '../images/image6.jpg';
+// import '../pages/Home.css';
 
 const Home = () => {
   return (
     <>
       {/* Navbar */}
-      <Navbar bg="dark" variant="dark" expand="lg" className="px-3 shadow">
+      <Navbar bg="dark" variant="dark" expand="lg" className="px-3 shadow sticky-top">
         <Navbar.Brand as={Link} to="/">MegaCityCab</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -18,29 +24,47 @@ const Home = () => {
       </Navbar>
 
       {/* Hero Section with Carousel */}
-      <Carousel>
-        <Carousel.Item>
-          <img className="d-block w-100" src="https://static.vecteezy.com/system/resources/thumbnails/026/992/343/small_2x/classic-modified-car-with-dark-smokie-background-ai-generative-free-photo.jpg" alt="First slide" />
-          <Carousel.Caption>
-            <h3>Reliable City Rides</h3>
-            <p>Book a cab anytime, anywhere in Colombo.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className="d-block w-100" src="https://img.freepik.com/free-photo/luxurious-car-parked-highway-with-illuminated-headlight-sunset_181624-60607.jpg" alt="Second slide" />
-          <Carousel.Caption>
-            <h3>Affordable Fares</h3>
-            <p>Transparent pricing with no hidden charges.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className="d-block w-100" src="https://source.unsplash.com/1600x600/?city,transport" alt="Third slide" />
-          <Carousel.Caption>
-            <h3>Fast & Secure</h3>
-            <p>Enjoy safe and secure rides with our verified drivers.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
+     <Carousel className="slider" style={{ height: "500px" }}>
+  <Carousel.Item>
+    <img
+      className="d-block w-100"
+      src={image5}
+      alt="First slide"
+      style={{ height: "500px", objectFit: "cover" }}
+    />
+    <Carousel.Caption>
+      <h3>Reliable City Rides</h3>
+      <p>Book a cab anytime, anywhere in Colombo.</p>
+    </Carousel.Caption>
+  </Carousel.Item>
+
+  <Carousel.Item>
+    <img
+      className="d-block w-100"
+      src={image6}
+      alt="Second slide"
+      style={{ height: "500px", objectFit: "cover" }}
+    />
+    <Carousel.Caption>
+      <h3>Affordable Fares</h3>
+      <p>Transparent pricing with no hidden charges.</p>
+    </Carousel.Caption>
+  </Carousel.Item>
+
+  <Carousel.Item>
+    <img
+      className="d-block w-100"
+      src={image4}
+      alt="Third slide"
+      style={{ height: "500px", objectFit: "cover" }}
+    />
+    <Carousel.Caption>
+      <h3>Fast & Secure</h3>
+      <p>Enjoy safe and secure rides with our verified drivers.</p>
+    </Carousel.Caption>
+  </Carousel.Item>
+</Carousel>
+
 
       {/* About Section */}
       <Container className="my-5 text-center">

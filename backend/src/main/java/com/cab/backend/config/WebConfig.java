@@ -1,6 +1,7 @@
 package com.cab.backend.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -8,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(@NonNull CorsRegistry registry) {
         registry.addMapping("/**")  // Enable CORS for all endpoints
                 .allowedOrigins("http://localhost:3000")  // Allow the frontend origin explicitly
                 .allowedMethods("GET", "POST", "PUT", "DELETE")  // Allow these HTTP methods

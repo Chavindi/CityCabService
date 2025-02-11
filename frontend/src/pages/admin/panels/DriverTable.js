@@ -3,17 +3,22 @@ import DataTable from "react-data-table-component";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
+import Select from "react-select";
 import AddDriver from "../panels/models/AddDriver";
 import UpdateDriver from "../panels/models/UpdateDriver";
 
 const DriverTable = () => {
   const [drivers, setDrivers] = useState([]);
+  const [cars, setCars] = useState([]);
+  const [selectedCar, setSelectedCar] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedDriver, setSelectedDriver] = useState(null);
 
+
   useEffect(() => {
     fetchDrivers();
+    fetchCars();
   }, []);
 
   const fetchDrivers = () => {
@@ -24,6 +29,27 @@ const DriverTable = () => {
         setDrivers(response.data);
       })
       .catch((error) => console.error("Error fetching drivers:", error));
+  };
+
+  const fetchCars = () => {
+    axios
+      .get("http://localhost:8080/cars")
+      .then((response) => {
+        // Convert car list to dropdown format
+        const carOptions = response.data.map((car) => ({
+          value: car.number, // Store car number as value
+          label: `${car.number} (${car.brand} - ${car.model})`, // Display number + brand + model
+        }));
+        setCars(carOptions);
+      })
+      .catch((error) => console.error("Error fetching cars:", error));
+  };
+
+  const handleCarChange = (selectedOption, rowId) => {
+    setSelectedCar((prev) => ({
+      ...prev,
+      [rowId]: selectedOption,
+    }));
   };
 
   const handleUpdateDriver = (driver) => {
@@ -51,6 +77,8 @@ const DriverTable = () => {
         console.error("Error deleting driver:", error);
       });
   };
+
+
   
 
   // Define table columns
@@ -59,8 +87,20 @@ const DriverTable = () => {
     { name: "Last Name", selector: (row) => row.lastName, sortable: true },
     { name: "Email", selector: (row) => row.email, sortable: true },
     { name: "Phone 1", selector: (row) => row.telephone1, sortable: true },
-    { name: "Phone 2", selector: (row) => row.telephone2, sortable: true },
+    // { name: "Phone 2", selector: (row) => row.telephone2, sortable: true },
     { name: "NIC", selector: (row) => row.nic, sortable: true },
+    {
+      name: "Car Assigned",
+      cell: (row) => (
+        <Select
+          options={cars}
+          value={selectedCar[row.id] || null}
+          onChange={(selectedOption) => handleCarChange(selectedOption, row.id)}
+          placeholder="Select Car"
+        />
+      ),
+      ignoreRowClick: true,
+    },
     {
       name: "Actions",
       cell: (row) => (
