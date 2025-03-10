@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* Add this to your CSS file or style tag */
+.custom-select {
+  position: relative;
+  z-index: 1000; /* Set this to a higher value to ensure it's on top */
+}
