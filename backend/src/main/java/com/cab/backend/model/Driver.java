@@ -3,7 +3,7 @@ package com.cab.backend.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "drivers") //  Mapping this class to 'drivers' collection
+@Document(collection = "drivers")
 public class Driver {
     @Id
     private String id;
@@ -25,7 +25,7 @@ public class Driver {
         this.telephone1 = telephone1;
         this.telephone2 = telephone2;
         this.nic = nic;
-        this.nic = assignedCar;
+        this.assignedCar = assignedCar; // Fix the constructor mistake
     }
 
     // Getters and Setters
@@ -37,6 +37,10 @@ public class Driver {
 
     public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public String getName() { 
+        return firstName + " " + lastName; // Combine First Name and Last Name
+    }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }

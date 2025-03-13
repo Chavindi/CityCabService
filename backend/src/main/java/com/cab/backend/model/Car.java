@@ -3,7 +3,8 @@ package com.cab.backend.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "cars") //  Mapping this class to 'cars' collection
+@Document(collection = "cars")
+ //  Mapping this class to 'cars' collection
 public class Car {
     @Id
     private String id;
@@ -12,6 +13,7 @@ public class Car {
     private String number;
     private String color;
     private int year;
+    private String cabimageURL;
 
     //  Constructors
     public Car() {}

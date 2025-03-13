@@ -51,78 +51,95 @@ const CustomerRegistration = () => {
       <Row className="w-100">
         <Col md={6} className="mx-auto">
           <Card className="shadow p-4">
-            <Card.Title className="text-center mb-4">Customer Registration</Card.Title>
+            <h2 className="text-center h1 mb-4">Customer Registration</h2>
 
             {message && <Alert variant="danger">{message}</Alert>}
 
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
+            <Form onSubmit={handleSubmit} className="form form-sm form-validate">
+              <div className="form-group">
+                <label>Name <span className="red">*</span></label>
+                <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
+                  className="ajaxField required"
+                  placeholder="Your name"
                   required
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
+              <div className="form-group">
+                <label>Email <span className="red">*</span></label>
+                <input
+                  type="text"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  className="ajaxField required"
+                  placeholder="Email"
                   required
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
+              <div className="form-group">
+                <label>Password <span className="red">*</span></label>
+                <input
+                  type="text"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  className="ajaxField required"
+                  placeholder="Password"
                   required
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Contact Number</Form.Label>
-                <Form.Control
+              <div className="form-group">
+                <label>Contact Number <span className="red">*</span></label>
+                <input
                   type="text"
                   name="contactNumber"
                   value={formData.contactNumber}
                   onChange={handleChange}
+                  className="ajaxField required"
+                  placeholder="Contact Number"
                   required
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Address</Form.Label>
-                <Form.Control
+              <div className="form-group">
+                <label>Address <span className="red">*</span></label>
+                <input
                   type="text"
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
+                  className="ajaxField required"
+                  placeholder="Address"
                   required
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>NIC</Form.Label>
-                <Form.Control
+              <div className="form-group">
+                <label>NIC <span className="red">*</span></label>
+                <input
                   type="text"
                   name="nic"
                   value={formData.nic}
                   onChange={handleChange}
+                  className="ajaxField required"
+                  placeholder="NIC"
                   required
                 />
-              </Form.Group>
+              </div>
 
-              <Button variant="primary" type="submit" className="w-100" disabled={loading}>
+              <Button
+                variant="primary"
+                type="submit"
+                className="btn btn-yellow aligncenter btn-lg"
+                disabled={loading}
+              >
                 {loading ? 'Registering...' : 'Register'}
               </Button>
             </Form>
