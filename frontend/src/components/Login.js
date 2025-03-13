@@ -12,7 +12,6 @@ const Login = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    
   };
 
   const handleSubmit = async (event) => {
@@ -31,15 +30,19 @@ const Login = () => {
         localStorage.setItem('userRole', response.data.role);
         localStorage.setItem('customerName', response.data.name);
         localStorage.setItem('registrationNumber', response.data.registrationNumber);
+        localStorage.setItem('email', response.data.email);
         console.log('Registration Number set in localStorage:', response.data.registrationNumber);
         console.log('Role set in localStorage:', response.data.role);
-
 
         if (response.data.role === 'admin') {
           navigate('/admin-dashboard');
         } else if (response.data.role === 'CUSTOMER') {
           navigate('/customer-dashboard');
-        } else {
+        }
+        else if(response.data.role === 'DRIVER') {
+          navigate('/driver-dashboard');
+        }
+        else {
           setMessage('Unauthorized role.');
         }
       } else {
@@ -57,34 +60,43 @@ const Login = () => {
       <Row className="w-100">
         <Col md={6} className="mx-auto">
           <Card className="shadow p-4">
-            <Card.Title className="text-center mb-4">Login</Card.Title>
+            <h2 className="text-center h1 mb-4">Login</h2>
 
             {message && <Alert variant="danger">{message}</Alert>}
 
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3">
-                <Form.Label>email</Form.Label>
-                <Form.Control
+            <Form onSubmit={handleSubmit} className="form form-sm form-validate">
+              <div className="form-group">
+                <label>Email <span className="red">*</span></label>
+                <input
                   type="text"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  className="ajaxField required"
+                  placeholder="Email"
                   required
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
+              <div className="form-group">
+                <label>Password <span className="red">*</span></label>
+                <input
+                  type="text"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  className="ajaxField required"
+                  placeholder="Password"
                   required
                 />
-              </Form.Group>
+              </div>
 
-              <Button variant="primary" type="submit" className="w-100" disabled={loading}>
+              <Button
+                variant="primary"
+                type="submit"
+                className="btn btn-yellow aligncenter btn-lg"
+                disabled={loading}
+              >
                 {loading ? 'Logging in...' : 'Login'}
               </Button>
             </Form>

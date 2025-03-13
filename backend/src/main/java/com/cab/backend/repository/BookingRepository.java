@@ -10,4 +10,5 @@ public interface BookingRepository extends MongoRepository<Booking, String> {
   
     // Custom query to find bookings by customerId
     List<Booking> findByRegistrationNumber(String registrationNumber);
+    List<Booking> findByDriverEmail(String email); 
 }

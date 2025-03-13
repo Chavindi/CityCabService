@@ -10,8 +10,14 @@ public class Booking {
     private String id; 
     private String orderNumber; 
     private String registrationNumber;
+    private String email;
     private String pickupLocation;
     private String dropoffLocation;
+    private int passengers;
+    private String vehicle;
+    private float distance; // Corrected typo
+    private float totalAmount;
+    private Driver driver; 
     private String date;
     private String time;
     private String status; // e.g., 'booked', 'accepted', 'completed'
@@ -20,17 +26,33 @@ public class Booking {
     public Booking() {}
 
     public Booking(String orderNumber, String registrationNumber, String pickupLocation, String dropoffLocation, 
-                   String date, String time, String status) {
+                   int passengers, String vehicle, float distance, float totalAmount, String date, String time, String status) {
         this.orderNumber = orderNumber;
         this.registrationNumber = registrationNumber;
+        this.email = email;
         this.pickupLocation = pickupLocation;
         this.dropoffLocation = dropoffLocation;
+        this.passengers = passengers;
+        this.vehicle = vehicle;
+        this.distance = distance;
+        this.totalAmount = totalAmount;
         this.date = date;
         this.time = time;
         this.status = status;
     }
 
+    
+
     // Getters and Setters
+
+    public Driver getDriver() {
+        return driver;
+    }
+    
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+    
     public String getId() {
         return id;
     }
@@ -51,9 +73,14 @@ public class Booking {
         return registrationNumber;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setRegistrationNumber(String registrationNumber) {
         this.registrationNumber = registrationNumber;
     }
+
 
     public String getPickupLocation() {
         return pickupLocation;
@@ -69,6 +96,38 @@ public class Booking {
 
     public void setDropoffLocation(String dropoffLocation) {
         this.dropoffLocation = dropoffLocation;
+    }
+
+    public int getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(int passengers) {
+        this.passengers = passengers;
+    }
+
+    public String getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(String vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
+
+    public float getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(float totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public String getDate() {

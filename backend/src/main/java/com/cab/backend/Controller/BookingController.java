@@ -3,6 +3,7 @@ package com.cab.backend.Controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping; 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,24 +13,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cab.backend.dto.AssignDriverRequest;
 import com.cab.backend.dto.BookingWithCustomerDTO;
+import com.cab.backend.exception.BookingNotFoundException;
+import com.cab.backend.exception.DriverNotFoundException;
 import com.cab.backend.model.Booking;
 import com.cab.backend.model.User;
 import com.cab.backend.repository.BookingRepository;
 import com.cab.backend.repository.UserRepository;
-
-
+import com.cab.backend.service.BookingService;  // Make sure you have this service class
 
 @RestController
 @RequestMapping("/bookings")
 public class BookingController {
 
     private final BookingRepository bookingRepository;
-     private final UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final BookingService bookingService;  // Inject service for assigning driver
 
-    public BookingController(BookingRepository bookingRepository , UserRepository userRepository) {
+    public BookingController(BookingRepository bookingRepository, UserRepository userRepository, BookingService bookingService) {
         this.bookingRepository = bookingRepository;
         this.userRepository = userRepository;
+        this.bookingService = bookingService;
     }
 
     // Add a new booking
@@ -37,7 +42,7 @@ public class BookingController {
     public ResponseEntity<Booking> addBooking(@RequestBody Booking booking) {
         // Generate a unique order number if not present
         if (booking.getOrderNumber() == null || booking.getOrderNumber().isEmpty()) {
-            String orderNumber = "ORD-" + Math.floor(Math.random() * 90000 + 10000); // Generate order number
+            String orderNumber = "ORD-" + (int)(Math.random() * 90000 + 10000); // Generate order number
             booking.setOrderNumber(orderNumber);
         }
     
@@ -45,7 +50,18 @@ public class BookingController {
         Booking savedBooking = bookingRepository.save(booking);
         return ResponseEntity.ok(savedBooking);
     }
-    
+
+@PostMapping("/assignDriver")
+public ResponseEntity<?> assignDriver(@RequestBody AssignDriverRequest request) {
+    try {
+        bookingService.assignDriverToBooking(request.getBookingId(), request.getDriverId());
+        return ResponseEntity.ok("Driver assigned successfully");
+    } catch (BookingNotFoundException | DriverNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+    }
+}
 
     // Get all bookings (for admin, for example)
     @GetMapping
@@ -54,10 +70,14 @@ public class BookingController {
         return ResponseEntity.ok(bookings);
     }
 
+    @GetMapping("/driver/{email}/bookings")
+    public List<Booking> getBookingsByDriver(@PathVariable String email) {
+        return bookingService.getBookingsByDriver(email);
+    }
+
     // Get bookings for a specific customer
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<Booking>> getBookingsByCustomerId(@PathVariable String customerId) {
-        // Custom query can be written in the repository
         List<Booking> bookings = bookingRepository.findByRegistrationNumber(customerId);
         return ResponseEntity.ok(bookings);
     }
@@ -72,20 +92,23 @@ public class BookingController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    // Get all bookings with customer details
+    @GetMapping("/withCustomers")
+    public ResponseEntity<List<BookingWithCustomerDTO>> getAllBookingsWithCustomers() {
+        List<Booking> bookings = bookingRepository.findAll();
+        
+        List<BookingWithCustomerDTO> bookingsWithCustomers = bookings.stream().map(booking -> {
+            // Use registrationNumber to look up user (customer)
+            User customer = userRepository.findByRegistrationNumber(booking.getRegistrationNumber());
+            
+            // Handle null customer (if any)
+            if (customer == null) {
+                customer = new User(); // Or return default/null value
+            }
 
-        // Get all bookings with customer details
-        @GetMapping("/withCustomers")
-        public ResponseEntity<List<BookingWithCustomerDTO>> getAllBookingsWithCustomers() {
-            List<Booking> bookings = bookingRepository.findAll();
+            return new BookingWithCustomerDTO(booking, customer);
+        }).collect(Collectors.toList());
         
-            List<BookingWithCustomerDTO> bookingsWithCustomers = bookings.stream().map(booking -> {
-                // Use registrationNumber to look up user (customer)
-                User customer = userRepository.findByRegistrationNumber(booking.getRegistrationNumber());
-                return new BookingWithCustomerDTO(booking, customer); // No need for orElse(null)
-            }).collect(Collectors.toList());
-        
-            return ResponseEntity.ok(bookingsWithCustomers);
-        }
-        
-        
+        return ResponseEntity.ok(bookingsWithCustomers);
+    }
 }

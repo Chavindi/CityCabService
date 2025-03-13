@@ -25,24 +25,27 @@ public class AuthController {
         User user = userRepository.findByEmail(email); // Find user by email
 
         if (user != null && user.getPassword().equals(password)) {
-            return new ResponseEntity<>(new Response("Login successful!", user.getRole(), user.getName(), user.getRegistrationNumber()), HttpStatus.OK);
+            // Return the email with login success
+            return new ResponseEntity<>(new Response("Login successful!", user.getRole(), user.getName(), user.getRegistrationNumber(), email), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new Response("Invalid credentials", null,null,null), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new Response("Invalid credentials", null, null, null, null), HttpStatus.UNAUTHORIZED);
         }
     }
 
-    // Response DTO class to return the message and role
+    // Response DTO class to return the message and role, including the email
     public static class Response {
         private String message;
         private String role;
         private String name;
         private String registrationNumber;
+        private String email;
 
-        public Response(String message, String role , String name , String registrationNumber) {
+        public Response(String message, String role , String name , String registrationNumber, String email) {
             this.message = message;
             this.role = role;
             this.name = name;
             this.registrationNumber = registrationNumber;
+            this.email = email;
         }
 
         public String getMessage() {
@@ -58,9 +61,9 @@ public class AuthController {
         }
 
         public void setRole(String role) {
-          
             this.role = role;
         }
+
         public String getName() {
             return name;
         }
@@ -75,6 +78,14 @@ public class AuthController {
 
         public void setRegistrationNumber(String registrationNumber) {
             this.registrationNumber = registrationNumber;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
         }
     }
 }
